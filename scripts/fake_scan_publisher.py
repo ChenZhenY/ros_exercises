@@ -34,7 +34,6 @@ def talker():
         scan_msg.header.frame_id = 'base_link'
         length = int(np.rint((angle_max-angle_min)/angle_increment) + 1)
         ranges = np.random.rand(length)*(range_max-range_min)+range_min  # 1 dimension array! 
-        print(ranges)
         scan_msg.ranges = ranges.tolist()
 
         # rospy.loginfo(scan_msg)
