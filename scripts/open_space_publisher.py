@@ -11,11 +11,13 @@ class OpenSpacePub ():
     def __init__(self):
         self.value = 0
         self.space_msg = OpenSpace()
+        self.pub_topic = rospy.get_param('open_pub', '/open_space')
+        self.sub_topic = rospy.get_param('open_sub', '/fake_scan')
         rospy.init_node('open_space_publisher', anonymous=True)
         # self.pub_dist = rospy.Publisher('/open_space/distance',Float32,queue_size=10)
         # self.pub_angle = rospy.Publisher('/open_space/angle',Float32,queue_size=10)
-        self.pub_space = rospy.Publisher('/open_space',OpenSpace,queue_size=10)
-        rospy.Subscriber('/fake_scan', LaserScan, self.listener)
+        self.pub_space = rospy.Publisher(self.pub_topic,OpenSpace,queue_size=10)
+        rospy.Subscriber(self.sub_topic, LaserScan, self.listener)
 
     def listener(self, msg):
         self.range = msg.ranges

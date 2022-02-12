@@ -6,17 +6,23 @@ import numpy as np
 from sensor_msgs.msg import LaserScan
 
 def talker():
-    pub = rospy.Publisher('fake_scan', LaserScan, queue_size=10)
+    scan_rate = rospy.get_param('scan_rate', 20)
+    scan_name = rospy.get_param('scan_name', 'fake_scan')
+
+    pub = rospy.Publisher(scan_name, LaserScan, queue_size=10)
     rospy.init_node('fake_scan_publisher', anonymous=True)
-    rate = rospy.Rate(20) # 20hz
+    rate = rospy.Rate(scan_rate) # 20hz
     now = rospy.Time.now() #get_time()
     last = rospy.Time.now()
 
-    angle_min = -2*pi/3.0
-    angle_max = 2*pi/3.0
-    range_min = 1.0
-    range_max = 10.0
-    angle_increment = pi/300.0
+    angle_min = rospy.get_param('angle_min', -2*pi/3.0)
+    angle_max = rospy.get_param('angle_max', 2*pi/3.0)
+    range_min = rospy.get_param('range_min', 1.0)
+    range_max = rospy.get_param('aaa/range_max', 10.0) 
+    angle_increment = rospy.get_param('~angle_increment', pi/300.0)
+    # private namespace ~, need to specify param in launch file accordingly ~
+
+    rospy.loginfo(range_max)
 
     scan_msg = LaserScan()
     scan_msg.angle_min = angle_min
