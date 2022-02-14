@@ -51,19 +51,19 @@ def calc_br_transforms(tr, br):
     t.transform.rotation.y = rot[1]
     t.transform.rotation.z = rot[2]
     t.transform.rotation.w = rot[3]
-    br.sendTransform(t)
 
-    t.header.frame_id = "left_cam"
-    t.child_frame_id = "right_cam"
-    t.transform.translation.x = right_trans_matrix[0,2]
-    t.transform.translation.y = right_trans_matrix[1,2]
-    t.transform.translation.z = right_trans_matrix[2,2]
+    t1 = geometry_msgs.msg.TransformStamped()
+    t1.header.frame_id = "left_cam"
+    t1.child_frame_id = "right_cam"
+    t1.transform.translation.x = right_trans_matrix[0,2]
+    t1.transform.translation.y = right_trans_matrix[1,2]
+    t1.transform.translation.z = right_trans_matrix[2,2]
     # q = tf_conversions.transformations.quaternion_from_euler(0, 0, msg.theta)
-    t.transform.rotation.x = rotq_right[0]
-    t.transform.rotation.y = rotq_right[1]
-    t.transform.rotation.z = rotq_right[2]
-    t.transform.rotation.w = rotq_right[3]
-    br.sendTransform(t)
+    t1.transform.rotation.x = rotq_right[0]
+    t1.transform.rotation.y = rotq_right[1]
+    t1.transform.rotation.z = rotq_right[2]
+    t1.transform.rotation.w = rotq_right[3]
+    br.sendTransform([t,t1])
 
 if __name__ == '__main__':
     rospy.init_node('dynamic_tf_cam_publisher')

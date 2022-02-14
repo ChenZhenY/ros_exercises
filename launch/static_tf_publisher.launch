@@ -1,0 +1,7 @@
+<launch>
+
+  <param name="/use_sim_time" value="true"/>
+  <node name="tf_static_pub" pkg="ros_exercises" type="static_tf_cam_publisher.py" output="screen"/>
+  <node name="base_tf_pub" pkg="ros_exercises" type="base_link_tf_pub.py" output="screen"/>
+
+</launch>

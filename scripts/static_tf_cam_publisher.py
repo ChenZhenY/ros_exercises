@@ -10,35 +10,49 @@ import tf
 import tf2_ros
 import geometry_msgs.msg
 
+# why still no transformation from left_cam to base_link?
 if __name__ == '__main__':
-    if len(sys.argv) < 8:
-        rospy.logerr('Invalid number of parameters\nusage: '
-                     './static_turtle_tf2_broadcaster.py '
-                     'child_frame_name x y z roll pitch yaw')
-        sys.exit(0)
-    else:
-        if sys.argv[1] == 'world':
-            rospy.logerr('Your static turtle name cannot be "world"')
-            sys.exit(0)
 
-        rospy.init_node('my_static_tf2_broadcaster')
-        broadcaster = tf2_ros.StaticTransformBroadcaster()
-        static_transformStamped = geometry_msgs.msg.TransformStamped()
 
-        static_transformStamped.header.stamp = rospy.Time.now()
-        static_transformStamped.header.frame_id = "world"
-        static_transformStamped.child_frame_id = sys.argv[1]
+    rospy.init_node('my_static_tf2_broadcaster')
 
-        static_transformStamped.transform.translation.x = float(sys.argv[2])
-        static_transformStamped.transform.translation.y = float(sys.argv[3])
-        static_transformStamped.transform.translation.z = float(sys.argv[4])
+    broadcaster = tf2_ros.StaticTransformBroadcaster()
+    static_transformStamped = geometry_msgs.msg.TransformStamped()
 
-        quat = tf.transformations.quaternion_from_euler(
-                   float(sys.argv[5]),float(sys.argv[6]),float(sys.argv[7]))
-        static_transformStamped.transform.rotation.x = quat[0]
-        static_transformStamped.transform.rotation.y = quat[1]
-        static_transformStamped.transform.rotation.z = quat[2]
-        static_transformStamped.transform.rotation.w = quat[3]
+    static_transformStamped.header.stamp = rospy.Time.now()
+    static_transformStamped.header.frame_id = "base_link_gt"
+    static_transformStamped.child_frame_id = "left_cam"
 
-        broadcaster.sendTransform(static_transformStamped)
-        rospy.spin()
+    static_transformStamped.transform.translation.x = -0.05
+    static_transformStamped.transform.translation.y = 0
+    static_transformStamped.transform.translation.z = 0
+
+    quat = tf.transformations.quaternion_from_euler(0,0,0)
+    static_transformStamped.transform.rotation.x = quat[0]
+    static_transformStamped.transform.rotation.y = quat[1]
+    static_transformStamped.transform.rotation.z = quat[2]
+    static_transformStamped.transform.rotation.w = quat[3]
+
+    # broadcaster.sendTransform(static_transformStamped)
+
+
+    # broadcaster1 = tf2_ros.StaticTransformBroadcaster()
+    static_transformStamped1 = geometry_msgs.msg.TransformStamped()
+
+    static_transformStamped1.header.stamp = rospy.Time.now()
+    static_transformStamped1.header.frame_id = "left_cam"
+    static_transformStamped1.child_frame_id = "right_cam"
+
+    static_transformStamped1.transform.translation.x = 0.1
+    static_transformStamped1.transform.translation.y = 0
+    static_transformStamped1.transform.translation.z = 0
+
+    quat = tf.transformations.quaternion_from_euler(0,0,0)
+    static_transformStamped1.transform.rotation.x = quat[0]
+    static_transformStamped1.transform.rotation.y = quat[1]
+    static_transformStamped1.transform.rotation.z = quat[2]
+    static_transformStamped1.transform.rotation.w = quat[3]
+    # TODO: the right way to send two transform at a time
+    broadcaster.sendTransform([static_transformStamped1, static_transformStamped])
+
+    rospy.spin()
