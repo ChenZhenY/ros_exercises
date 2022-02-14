@@ -1,11 +1,13 @@
 <launch>
   <!-- <param name="~/fake/range_max" type="double" value="11.0"/> -->
   <!-- ~ private namespace convert node's name into ns, it will add the param to all nodes -->
-  <param name="range_max" type="double" value="11.0"/>
+  <param name="range_max" type="double" value="10.0"/>
 
-  <node name="fake_scan_publisher" pkg="ros_exercises" type="fake_scan_publisher.py" args="-range_max 20" output="screen"/>
-  <node name="open_space_publisher" pkg="ros_exercises" type="open_space_publisher.py"/>
+  <!-- <node name="fake_scan_publisher" pkg="ros_exercises" type="fake_scan_publisher.py" args="-range_max 10" output="screen"/> -->
   <node name="simple_publisher" pkg="ros_exercises" type="simple_publisher.py"/>
-  <node name="simple_subscriber" pkg="ros_exercises" type="simple_subscriber.py"/>
-  <node name="tf_pub" pkg="ros_exercises" type="dynamic_tf_cam_publisher.py"/>
+  <node name="simple_subscriber" pkg="ros_exercises" type="simple_subscriber.py" output="screen"/>
+  <node name="fake_scan_publisher" pkg="ros_exercises" type="fake_scan_publisher.py" />
+  <node name="open_space_publisher" pkg="ros_exercises" type="open_space_publisher.py"/>
+  
+  <!-- <node name="tf_pub" pkg="ros_exercises" type="dynamic_tf_cam_publisher.py"/> -->
 </launch>

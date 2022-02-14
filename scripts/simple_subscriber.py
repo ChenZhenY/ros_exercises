@@ -2,8 +2,9 @@
 import rospy
 from std_msgs.msg import Float32
 
-def callback(data):
-    rospy.loginfo(rospy.get_caller_id() + "I heard %s", data.data)
+def callback(data, pub):
+    pub.publish(data.data)
+    # rospy.loginfo(rospy.get_caller_id() + "I heard %s", data.data)
     
 def listener():
 
@@ -14,8 +15,9 @@ def listener():
     # run simultaneously.
     rospy.init_node('simple_subscriber', anonymous=True)
 
-    rospy.Subscriber("my_random_float", Float32, callback)
-
+    pub = rospy.Publisher('random_float_log', Float32, queue_size=10)
+    rospy.Subscriber("my_random_float", Float32, callback, pub)
+    
     # spin() simply keeps python from exiting until this node is stopped
     rospy.spin()
 
